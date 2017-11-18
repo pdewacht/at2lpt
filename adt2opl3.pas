@@ -8,15 +8,18 @@ const
   ___OPL3OUT_UNIT_DATA_START___: Dword = 0;
 {$ENDIF}
 
-procedure opl2out(reg,data: Word);
+procedure opl2out_proc(reg,data: Word);
 procedure opl3out_proc(reg,data: Word);
-procedure opl3exp(data: Word);
+procedure opl3exp_proc(data: Word);
 
 type
-  tOPL3OUT_proc = procedure(reg,data: Word);
+  tOPLOUT_proc = procedure(reg,data: Word);
+  tOPLEXP_proc = procedure(data: Word);
 
 const
-  opl3out: tOPL3OUT_proc = opl3out_proc;
+  opl2out: tOPLOUT_proc = opl2out_proc;
+  opl3out: tOPLOUT_proc = opl3out_proc;
+  opl3exp: tOPLEXP_proc = opl3exp_proc;
 
 {$IFDEF GO32V2}
 
@@ -78,7 +81,7 @@ procedure  ___OPL3OUT_IRQ_CODE_START___; begin end;
 var
   _opl_regs_cache: array[WORD] of Word;
 
-procedure opl2out(reg,data: Word);
+procedure opl2out_proc(reg,data: Word);
 begin
   If (_opl_regs_cache[reg] <> data) then
     _opl_regs_cache[reg] := data
@@ -127,7 +130,7 @@ begin
   end;
 end;
 
-procedure opl3exp(data: Word);
+procedure opl3exp_proc(data: Word);
 begin
   if (_opl_regs_cache[(data AND $ff) OR $100] <> data SHR 8) then
     _opl_regs_cache[(data AND $ff) OR $100] := data SHR 8
@@ -168,9 +171,9 @@ begin
         push    dword 80h
         push    dword 04h
         push    dword 60h
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
         mov     dx,opl3port
         in      al,dx
@@ -180,9 +183,9 @@ begin
         push    dword 21h
         push    dword 02h
         push    dword 0ffh
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
         mov     dx,opl3port
         in      al,dx
@@ -194,9 +197,9 @@ begin
         push    dword 80h
         push    dword 04h
         push    dword 60h
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
-        call    opl2out
+        call    opl2out_proc
         call    WaitRetrace
         mov     dx,opl3port
         in      al,dx
@@ -430,7 +433,7 @@ begin
   renew_wav_files_flag := FALSE;
 end;
 
-procedure opl2out(reg,data: Word);
+procedure opl2out_proc(reg,data: Word);
 begin
   // relevant only for DOS version -> option opl_latency=1
   opl3out_proc(reg,data);
