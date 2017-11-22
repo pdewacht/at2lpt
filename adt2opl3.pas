@@ -25,7 +25,7 @@ const
 
 const
   opl3port: Word = 0;
-  opl3lpt: Word = 0;
+  opl3lpt: Word = 1;
   opl_latency: Byte = 0;
 
 function detect_OPL3: Boolean;
