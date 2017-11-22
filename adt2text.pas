@@ -46,8 +46,8 @@ const
   ascii_line_18 = '           ³ ~Malfunction/Altair~                        ~'+at2ver+'~      ';
   ascii_line_19 = '           ³ ~Diode Millimpere~                                     ú';
   ascii_line_20 = '           ³ `special thanks:`                                      ú';
-  ascii_line_21 = '           ³ ~encore~               HOMEPAGE   www.adlibtracker.net ³';
-  ascii_line_22 = '           ³ ~Maan M. Hamze~        EMAiL  subz3ro.altair@gmail.com ³';
+  ascii_line_21 = '           ³ ~encore~                   MODiFiED TO SUPPORT OPT3LPT ³';
+  ascii_line_22 = '           ³ ~Maan M. Hamze~             github.com/pdewacht/adlipt ³';
   ascii_line_23 = '           À-ÄÄÄÄÄÄÄÄÄÄ--ùú    úù-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ù';
 
 procedure C3WriteLn(str: String; atr1,atr2,atr3: Byte);

@@ -446,7 +446,7 @@ begin
         main_background+main_title,
         frame_double);
   Frame(screen_ptr,01,01,MAX_COLUMNS,MAX_PATTERN_ROWS+12,
-        main_background+main_border,'- '+_ADT2_TITLE_STRING_+' -',
+        main_background+main_border,'- '+_ADT2_TITLE_STRING_+'  OPL3LPT version -',
         main_background+main_border,
         frame_single);
   Frame(screen_ptr,02,02,24,07,
