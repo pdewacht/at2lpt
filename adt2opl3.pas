@@ -25,9 +25,11 @@ const
 
 const
   opl3port: Word = 0;
+  opl3lpt: Word = 0;
   opl_latency: Byte = 0;
 
 function detect_OPL3: Boolean;
+function init_opl3lpt: Boolean;
 
 {$ELSE}
 
@@ -153,6 +155,59 @@ begin
   end;
 end;
 
+procedure opl3lptout_proc(reg,data: Word);
+begin
+  If (_opl_regs_cache[reg] <> data) then
+    _opl_regs_cache[reg] := data
+  else EXIT;
+
+  asm
+        mov     dx,word ptr [opl3port]
+        mov     ax,reg
+        out     dx,al
+        inc     edx
+        inc     edx
+        mov     al,13
+        or      ah,ah
+        jz      @@1
+        mov     al,5
+@@1:    out     dx,al
+        sub     al,4
+        out     dx,al
+        add     al,4
+        out     dx,al
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        mov     ax,data
+        dec     edx
+        dec     edx
+        out     dx,al
+        inc     edx
+        inc     edx
+        mov     al,12
+        out     dx,al
+        mov     al,8
+        out     dx,al
+        mov     al,12
+        out     dx,al
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+  end;
+end;
+
+procedure opl3lptexp_proc(data: Word);
+begin
+  opl3lptout_proc((data AND $ff) OR $100, data SHR 8);
+end;
+
 {$IFDEF GO32V2}
 procedure  ___OPL3OUT_IRQ_CODE_END___; begin end;
 {$ENDIF}
@@ -213,6 +268,25 @@ begin
   end;
 
   detect_OPL3 := result;
+end;
+
+function init_opl3lpt: Boolean;
+
+var
+  port: Word;
+
+begin
+  port := MemW[$406 + opl3lpt*2];
+  If port <> 0 then
+    begin
+      opl3port := port;
+      opl2out := opl3lptout_proc;
+      opl3out := opl3lptout_proc;
+      opl3exp := opl3lptexp_proc;
+      init_opl3lpt := TRUE;
+    end
+  else
+    init_opl3lpt := FALSE;
 end;
 
 {$ELSE}

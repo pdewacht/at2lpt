@@ -253,6 +253,15 @@ begin { MAIN }
     else If (opl3port < $1000) then
            WriteLn('OPL3 interface base address forced to ',ExpStrL(Num2str(opl3port,16),3,'0'),'h')
          else WriteLn('OPL3 interface base address forced to ',ExpStrL(Num2str(opl3port,16),4,'0'),'h')
+  else If (opl3lpt <> 0) then
+    begin
+      If not init_opl3lpt then
+        begin
+          WriteLn('Port LPT',opl3lpt,' not present!');
+          halt_startup(3);
+        end;
+      WriteLn('Using LPT',opl3lpt,' interface at address ',Num2str(opl3port,16),'h');
+    end
   else begin
          opl3detected := FALSE;
          Repeat
