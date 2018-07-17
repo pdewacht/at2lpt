@@ -31,7 +31,7 @@ echo **  STEP 2/4                      **
 echo **  Compiling sources             **
 echo **                                **
 echo ************************************
-ppc386 -O2 -OpPENTIUM2 -Ccpascal -Mtp -Rintel -Tgo32v2 adtrack2.pas >!log
+ppc386 -O2 -OpPENTIUM2 -Ccpascal -Mtp -Rintel -Tgo32v2 -Aas adtrack2.pas >!log
 if not exist adtrack2.exe goto :compile_error
 if not exist *.ppu goto :no_ppu_file
 del *.ppu >nul

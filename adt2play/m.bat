@@ -19,7 +19,7 @@ del *.o >nul
 if not exist !log goto :no_log_file
 del !log >nul
 :no_log_file
-ppc386 -O2 -OpPENTIUM2 -Ccpascal -Mtp -Rintel -Tgo32v2 adt2play >!log
+ppc386 -O2 -OpPENTIUM2 -Ccpascal -Mtp -Rintel -Tgo32v2 -Aas adt2play >!log
 if not exist adt2play.exe goto :compile_error
 if not exist *.ppu goto :no_ppu_file
 del *.ppu >nul
