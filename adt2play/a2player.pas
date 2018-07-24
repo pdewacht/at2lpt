@@ -87,9 +87,13 @@ procedure get_chunk(pattern,line,chan: Byte; var chunk: tCHUNK);
 procedure put_chunk(pattern,line,chan: Byte; chunk: tCHUNK);
 procedure count_order(var entries: Byte);
 procedure timer_poll_proc;
+{
 procedure opl2out_proc(reg,data: Word);
 procedure opl3out_proc(reg,data: Word);
 procedure opl3exp_proc(data: Word);
+}
+procedure opl3lptout_proc(reg,data: Word);
+procedure opl3lptexp_proc(data: Word);
 procedure DisableTimerIRQ_proc;
 procedure EnableTimerIRQ_proc;
 function  calc_following_order(order: Byte): Integer;
@@ -103,9 +107,9 @@ type
   tOPLEXP_proc = procedure(data: Word);
 
 const
-  opl2out: tOPLOUT_proc = opl2out_proc;
-  opl3out: tOPLOUT_proc = opl3out_proc;
-  opl3exp: tOPLEXP_proc = opl3exp_proc;
+  opl2out: tOPLOUT_proc = opl3lptout_proc;
+  opl3out: tOPLOUT_proc = opl3lptout_proc;
+  opl3exp: tOPLEXP_proc = opl3lptexp_proc;
   DisableTimerIRQ: procedure = DisableTimerIRQ_proc;
   EnableTimerIRQ: procedure = EnableTimerIRQ_proc;
 
@@ -241,6 +245,8 @@ var
 var
   _opl_regs_cache: array[WORD] of Word;
 
+{
+
 procedure opl2out_proc(reg,data: Word);
 begin
   If (_opl_regs_cache[reg] <> data) then
@@ -311,6 +317,61 @@ begin
 @@2:    in      al,dx
         loop    @@2
   end;
+end;
+
+}
+
+procedure opl3lptout_proc(reg,data: Word);
+begin
+  If (_opl_regs_cache[reg] <> data) then
+    _opl_regs_cache[reg] := data
+  else EXIT;
+
+  asm
+        mov     dx,word ptr [opl3port]
+        mov     ax,reg
+        out     dx,al
+        inc     edx
+        inc     edx
+        mov     al,13
+        or      ah,ah
+        jz      @@1
+        mov     al,5
+@@1:    out     dx,al
+        sub     al,4
+        out     dx,al
+        add     al,4
+        out     dx,al
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        mov     ax,data
+        dec     edx
+        dec     edx
+        out     dx,al
+        inc     edx
+        inc     edx
+        mov     al,12
+        out     dx,al
+        mov     al,8
+        out     dx,al
+        mov     al,12
+        out     dx,al
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+        in      al,dx
+  end;
+end;
+
+procedure opl3lptexp_proc(data: Word);
+begin
+  opl3lptout_proc((data AND $ff) OR $100, data SHR 8);
 end;
 
 const
