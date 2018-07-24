@@ -66,6 +66,7 @@ begin
       CWriteLn('       ÄÂÄ       ÄÄ',$09,0);
       CWriteLn('  /´DLiB³R/´CK3R ³³ PLAYER',$09,0);
       CWriteLn('   ³       ³     ÄÄ   '+VERSION_STR,$09,0);
+      CWriteLn('         (OPL3LPT version)',$09,0);
       CWriteLn('',$07,0);
     end
   else begin
@@ -74,6 +75,7 @@ begin
          WriteLn('       ÄÂÄ       ÄÄ');
          WriteLn('  /´DLiB³R/´CK3R ³³ PLAYER');
          WriteLn('   ³       ³     ÄÄ   '+VERSION_STR);
+         WriteLn('         (OPL3LPT version)');
          WriteLn;
        end;
 end;
@@ -164,6 +166,7 @@ begin
   If (ParamCount = 0) then
     begin
       If _gfx_mode then _list_title;
+      CWriteLn('ADT2PLAY  OPL3LPT version',$07,0);
       CWriteLn('Syntax: '+BaseNameOnly(_ParamStr[0])+' files|wildcards [files|wildcards{...}] [options]',$07,0);
       CWriteLn('',$07,0);
       CWriteLn('Command-line options:',$07,0);
