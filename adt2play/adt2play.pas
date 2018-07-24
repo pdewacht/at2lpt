@@ -36,7 +36,7 @@ var
   free_mem: Longint;
 
 var
-  temp,temp2: Byte;
+  temp,temp2,lpt: Byte;
   _ParamStr: array[0..255] of String[80];
 
 const
@@ -158,9 +158,24 @@ begin
     If (Lower(_ParamStr[temp]) = '/jukebox') then
       jukebox := TRUE;
 
+  lpt := 1;
   For temp := 1 to ParamCount do
-    If (Lower(_ParamStr[temp]) = '/latency') then
-      opl3out := opl2out;
+    begin
+      If (Lower(_ParamStr[temp]) = '/lpt1') then
+        lpt := 1
+      else If (Lower(_ParamStr[temp]) = '/lpt2') then
+        lpt := 2
+      else If (Lower(_ParamStr[temp]) = '/lpt3') then
+        lpt := 3
+    end;
+
+  opl3port := MemW[$406 + lpt*2];
+  If (opl3port = 0) then
+    begin
+      If _gfx_mode then _list_title;
+      WriteLn('ERROR - Port LPT'+Num2str(lpt,10)+' not found!');
+      HALT(4);
+    end;
 
   index := 0;
   If (ParamCount = 0) then
@@ -172,7 +187,8 @@ begin
       CWriteLn('Command-line options:',$07,0);
       CWriteLn('  /jukebox    play modules w/ no repeat',$07,0);
       CWriteLn('  /gfx        graphical interface',$07,0);
-      CWriteLn('  /latency    compatibility mode for OPL3 latency',$07,0);
+      CWriteLn('  /lpt2       use parallel port LPT2',$07,0);
+      CWriteLn('  /lpt3       use parallel port LPT3',$07,0);
       HALT;
     end;
 
