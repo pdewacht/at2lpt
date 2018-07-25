@@ -8,5 +8,5 @@ Download it from the [the Github releases tab][RELEASE].
 
 For more information on Adlib Tracker II itself, see [the official website][UPSTREAM].
 
-[RELEASE]: https://github.com/pdewacht/adt2lpt/releases/latest
+[RELEASE]: https://github.com/pdewacht/at2lpt/releases/latest
 [UPSTREAM]: http://www.adlibtracker.net/
