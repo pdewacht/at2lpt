@@ -8,3 +8,4 @@ For more information on Adlib Tracker II itself, see [the official website][UPST
 
 [RELEASE]: https://github.com/pdewacht/at2lpt/releases/latest
 [UPSTREAM]: http://www.adlibtracker.net/
+[ADPATCH]: https://github.com/pdewacht/adlipt/releases/latest
