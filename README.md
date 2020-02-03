@@ -1,10 +1,8 @@
 # Adlib Tracker II for OPL3LPT
 
-This is a version of Adlib Tracker II modified to support the OPL3LPT board.
+This is a version of Adlib Tracker II 2.3.56 modified to support the OPL3LPT board. You can download it from [the Github releases tab][RELEASE].
 
-Note: This needs an OPL3 chip. It does not work with the OPL2LPT board.
-
-Download it from the [the Github releases tab][RELEASE].
+I will not be updating this project for newer versions of Adlib Tracker II. Instead, you can patch those using my [ADPATCH] utility. (I find FPC a hassle to deal with, and I was never confident that I was building the project correctly.)
 
 For more information on Adlib Tracker II itself, see [the official website][UPSTREAM].
 
